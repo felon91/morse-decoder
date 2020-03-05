@@ -38,7 +38,29 @@ const MORSE_TABLE = {
 };
 
 function decode(expr) {
-    // write your solution here
+    const arrSymbols = [];
+
+    function decodeRecursion(expr) {
+        while (expr.length !== 0) {
+            arrSymbols.push(expr.slice(0, 10));
+            let sliceExpr = expr.slice(10);
+            return decodeRecursion(sliceExpr);
+        }
+    }
+
+    decodeRecursion(expr);
+
+    return arrSymbols.map((item) => {
+        return item
+            .replace(/10/g, '.')
+            .replace(/11/g, '-')
+            .replace(/0/g, '');
+    })
+        .map((item) => {
+            return (Object.keys(MORSE_TABLE).includes(item)) ? MORSE_TABLE[item] : ' ';
+        })
+        .join('');
+
 }
 
 module.exports = {
